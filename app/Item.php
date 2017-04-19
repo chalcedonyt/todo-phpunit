@@ -16,10 +16,12 @@ class Item extends Model
     protected static function boot()
     {
         static::saving(function (Item $item) {
-            $todo = $item->todoList;
-            $todo->last_item_updated_at = new \DateTime();
-            $todo->save();
-            Log::info(sprintf("The list %s was updated", $todo->getKey()));
+            if ($item->todoList) {
+                $todo = $item->todoList;
+                $todo->last_item_updated_at = new \DateTime();
+                $todo->save();
+                Log::info(sprintf("The list %s was updated", $todo->getKey()));
+            }
         });
     }
 }

@@ -31,7 +31,7 @@ class User extends Authenticatable
 
     protected static function boot()
     {
-        static::saving(function (User $user){
+        static::creating(function (User $user){
             $user->api_token = hash('sha256', uniqid(time()));
             $msg = sprintf("Api key %s created for user %s", $user->api_token, $user->getKey());
             Log::debug($msg);
